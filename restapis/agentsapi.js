@@ -14,8 +14,8 @@ var connection = mysql.createConnection({
   database: "pubs"
 });
 
-app.get("/authors", function(req, res) {
-  connection.query("SELECT * FROM authors", function(
+app.get("/agents", function(req, res) {
+  connection.query("SELECT * FROM agents", function(
     error,
     results,
     fields
@@ -25,45 +25,33 @@ app.get("/authors", function(req, res) {
   });
 });
 
-app.get("/authors/:id", function(req, res) {
+app.get("/agents/:id", function(req, res) {
   console.log(req.params.id);
-  let sql = "SELECT * FROM authors WHERE au_id = '" + req.params.id + "'";
+  let sql = "SELECT * FROM agents WHERE id = '" + req.params.id + "'";
   connection.query(sql, function(error, results, fields) {
     console.log(error);
     res.json(results);
   });
 });
 
-app.delete("/authors/:id", function(req, res) {
-  let sql = "DELETE FROM authors WHERE au_id = '" + req.params.id + "'";
+app.delete("/agents/:id", function(req, res) {
+  let sql = "DELETE FROM agents WHERE id = '" + req.params.id + "'";
   connection.query(sql, function(error, results, fields) {
-    res.end("album removed if it existed");
+    res.end("agent removed if it existed");
   });
 });
 
-app.post("/authors", function(req, res) {
-  let sql = "INSERT INTO authors(au_id, au_lname,au_fname,phone,address,city,state,zip,contract)";
+app.post("/agents", function(req, res) {
+  let sql = "INSERT INTO agents (display_name,role,nationality)";
   sql =
     sql +
     " VALUES('" +
-    req.body.id +
+    req.body.display_name +
     "','" +
-    req.body.lname +
+    req.body.role +
     "','" +
-    req.body.fname +
-    "','" +
-    req.body.phone +
-    "','" +
-    req.body.address +
-    "','" +
-    req.body.city +
-    "','" +
-    req.body.state +
-    "','" +
-    req.body.zip +
-    "'," +
-    req.body.contract +
-    ")";
+    req.body.nationality +
+    "')";
   console.log(sql);
   connection.query(sql, function(error, results, fields) {
     res.end("added new item");
